@@ -1,0 +1,16 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Dependencies
+node_modules/
+vendor/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
