@@ -24,7 +24,7 @@ jQuery(document).ready(function ($) {
             method: "POST",
 			dataType: "json",   
             data: {
-                action: "send_otp",
+                action: "wpchat_send_otp",
                 email: userEmail,
                 name: userName,
                 nonce: chatAjax.nonce
@@ -61,7 +61,7 @@ jQuery(document).ready(function ($) {
             method: "POST",
 			dataType: "json",   
             data: {
-                action: "verify_otp",
+                action: "wpchat_verify_otp",
                 email: userEmail,
                 otp: otp,
                 nonce: chatAjax.nonce
@@ -108,14 +108,16 @@ jQuery(document).ready(function ($) {
             return;
         }
 
-		chatget.abort();
+        if (chatget) {
+            chatget.abort();
+        }
 		
         $.ajax({
             url: chatAjax.ajaxurl,
             method: "POST",
 			dataType: "json",   
             data: {
-                action: "send_message", 
+                action: "wpchat_send_message", 
                 message: message,
 				last_message_id: lastMessageId,
                 nonce: chatAjax.nonce
@@ -175,24 +177,18 @@ jQuery(document).ready(function ($) {
 			return;
 		}
 
-		var chat_id		= jQuery("#send-message-admin").attr("data-chat_id");
-		var last_message_id		= jQuery("#send-message-admin").attr("data-last");
-		 
-        if ( 0 == chat_id ) {
-            alert("Please select a user.");
-            return;
-        } 
-		
 		var lastMessageId = jQuery("#send-message").data("last");	
 		
 		const formData = new FormData();
-		formData.append("action", "user_upload_chat_image");
+		formData.append("action", "wpchat_user_upload_chat_image");
 		formData.append("image", imageInput);		 
 		formData.append("sender", "user");  
 		formData.append("last_message_id", lastMessageId);     
 		formData.append("nonce", chatAjax.nonce);
 		 
-		chatget.abort();
+		if (chatget) {
+			chatget.abort();
+		}
 
 		$.ajax({
 			url: chatAjax.ajaxurl, // WordPress AJAX URL
@@ -204,11 +200,11 @@ jQuery(document).ready(function ($) {
 				
 				  jQuery('#chat-messages').append(response.data.html);					 				
 					lastMessageId = response.data.last_message_id;					
-					jQuery("#send-message-admin").attr("data-last", lastMessageId );
+					jQuery("#send-message").data("last", lastMessageId );
 					if( response.data.images != "" ){
 						jQuery("#chat_images_div").append( response.data.images );
 					}
-					//console.log( ' ajsx ' +  lastMessageId );
+					 
 					
 					activeRequest  = true;
 				 
@@ -230,7 +226,7 @@ jQuery(document).ready(function ($) {
 						method: 'POST',
 						dataType: "json",   
 						data: {
-							action: 'fetch_new_messages', 
+							action: 'wpchat_fetch_new_messages', 
 							last_message_id: lastMessageId,
                             nonce: chatAjax.nonce
 						},
@@ -241,7 +237,7 @@ jQuery(document).ready(function ($) {
 								
 								jQuery("#send-message").data("last", lastMessageId );
 								
-								console.log( ' ajsx ' +  lastMessageId );
+								 
 								
 								 
 							}
@@ -305,7 +301,7 @@ jQuery(document).ready(function ($) {
 			method: 'POST',
 			dataType: "json",   
 			data: {
-				action: 'fetch_new_messages_count', 
+				action: 'wpchat_fetch_new_messages_count', 
 				last_message_id: lastId,
                 nonce: chatAjax.nonce
 			},
@@ -330,7 +326,7 @@ jQuery(document).ready(function ($) {
             method: 'POST',
 			dataType: "json",   
             data: {
-                action: 'update_online_users',
+                action: 'wpchat_update_online_users',
                 nonce: chatAjax.nonce
             },
             success: function(response) {

@@ -1394,6 +1394,7 @@ dl {
 .tyn-quick-chat.active .tyn-quick-chat-box {
   opacity: 1;
   transform: translateY(0);
+  z-index: 1000;
 }
 .tyn-quick-chat-reply {
   height: 100%;

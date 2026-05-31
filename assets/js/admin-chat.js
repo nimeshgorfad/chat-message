@@ -3,7 +3,7 @@ jQuery(document).ready(function($){
 	var chatget = null; 
 	var activeRequest  = false; 
 	
-	jQuery(".chat_list").click(function(){
+	jQuery(document).on('click', '.chat_list', function(){
 		
 		jQuery(".chat_list").removeClass('active');
 		jQuery(this).addClass('active');
@@ -11,6 +11,8 @@ jQuery(document).ready(function($){
 		//jQuery("#tynReply").html("");
 		 var start_c_name = jQuery(this).find('.name').text();
 		jQuery(".start_c_name").html(start_c_name);
+		var start_c_avatar = jQuery(this).attr('data-avatar');
+		jQuery(".start_c_avatar").attr("src", start_c_avatar);
 		jQuery("#chat_images_div").html('');
 		jQuery("#chat-messages").html("");
 		var chat_id = jQuery(this).attr("data-id");
@@ -30,8 +32,8 @@ jQuery(document).ready(function($){
 		}
 		
 		
-		if (chatget != null){
-			chatget.abort();			
+		if (chatget) {
+			chatget.abort();
 		}
 
 		fetchNewMessages(0,chat_id);
@@ -74,17 +76,20 @@ jQuery(document).ready(function($){
             return;
         } 
 
-		chatget.abort();
+		if (chatget) {
+			chatget.abort();
+		}
 		
         $.ajax({
             url: chatAjax.ajaxurl,
             method: "POST",
 			dataType: "json",   
             data: {
-                action: "admin_send_message", 
+                action: "wpchat_admin_send_message", 
                 message: message,
                 wp_chat_id: chat_id,
                 last_message_id: last_message_id,
+                nonce: chatAjax.nonce
             },
             success: function (response) {
                 if (response.success) {
@@ -154,17 +159,20 @@ jQuery(document).ready(function($){
         } 
 		
 		const formData = new FormData();
-		formData.append("action", "admin_upload_chat_image");
+		formData.append("action", "wpchat_admin_upload_chat_image");
 		formData.append("image", imageInput);
 		 
-		formData.append("sender", "user"); // Set sender (user or admin)
+		formData.append("sender", "admin"); // Set sender (user or admin)
 		formData.append("last_message_id", last_message_id);  
 		formData.append("wp_chat_id", chat_id);  
+		formData.append("nonce", chatAjax.nonce);
 		 
-		chatget.abort();
+		if (chatget) {
+			chatget.abort();
+		}
 
 		$.ajax({
-			url: ajaxurl, // WordPress AJAX URL
+			url: chatAjax.ajaxurl, // WordPress AJAX URL
 			method: "POST",
 			data: formData,
 			contentType: false,
@@ -176,8 +184,7 @@ jQuery(document).ready(function($){
 					jQuery("#send-message-admin").attr("data-last", lastMessageId );
 					if( response.data.images != "" ){
 						jQuery("#chat_images_div").append( response.data.images );
-					}
-					//console.log( ' ajsx ' +  lastMessageId );
+					} 
 					
 					activeRequest  = true;
 				 
@@ -197,9 +204,10 @@ jQuery(document).ready(function($){
             method: 'POST',
 			dataType: "json",   
             data: {
-                action: 'admin_fetch_new_messages', 
+                action: 'wpchat_admin_fetch_new_messages', 
                 last_message_id: lastMessageId,
-                wp_chat_id: chat_id 
+                wp_chat_id: chat_id,
+                nonce: chatAjax.nonce
             },
             success: function(response) {
                 if (response) {
@@ -255,8 +263,9 @@ jQuery(document).ready(function($){
             method: 'POST',
 			dataType: "json",   
             data: {
-                action: 'admin_fetch_new_chat',  
-                last_chat_id: last_chatid 
+                action: 'wpchat_admin_fetch_new_chat',  
+                last_chat_id: last_chatid,
+                nonce: chatAjax.nonce
             },
             success: function(response) {
                 
@@ -290,7 +299,8 @@ jQuery(document).ready(function($){
             method: 'POST',
 			dataType: "json",   
             data: {
-                action: 'admin_get_online_users',  
+                action: 'wpchat_admin_get_online_users',  
+                nonce: chatAjax.nonce
             },
             success: function(response) {
                 
@@ -332,8 +342,9 @@ jQuery(document).ready(function($){
             method: "POST",
 			dataType: "json",   
             data: {
-                action: "admin_block_user",  
+                action: "wpchat_admin_block_user",  
                 wp_chat_id: chat_id,
+                nonce: chatAjax.nonce
             },
             success: function (response) {
                 if (response.success) {

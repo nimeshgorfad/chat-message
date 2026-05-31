@@ -1,0 +1,136 @@
+/**
+ * Frontend Chat Box Styles
+ */
+
+/* Main Box */
+.tyn-quick-chat-box {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1), 0 0 1px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.tyn-quick-chat-head {
+    border-bottom: 1px solid var(--quck-chat-border);
+    padding: 0.75rem 1rem;
+    z-index: 10;
+}
+
+.tyn-quick-chat-head .name {
+    font-size: 0.938rem;
+    font-weight: 600;
+}
+
+.tyn-quick-chat-head .meta {
+    font-size: 0.75rem;
+    color: #10b981; /* Success Green */
+}
+
+.tyn-quick-chat-head .tyn-media-option {
+    position: static;
+    opacity: 1;
+    margin-left: auto;
+}
+
+/* Messages Area */
+.tyn-quick-chat-reply {
+    background: #f8fafc;
+}
+
+.tyn-reply-text {
+    font-size: 0.875rem !important;
+    line-height: 1.4;
+}
+
+.tyn-reply-text p {
+    margin-bottom: 0;
+    margin-top: 0.25rem;
+    font-size: 0.688rem;
+    opacity: 0.6;
+}
+
+.incoming .tyn-reply-text {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+}
+
+/* Input Form */
+.tyn-quick-chat-form {
+    padding: 0.75rem;
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    gap: 0.5rem;
+}
+
+.tyn-chat-form-input {
+    border: 1px solid #e2e8f0 !important;
+    background: #f1f5f9 !important;
+    border-radius: 0.75rem !important;
+    padding: 0.5rem 0.75rem !important;
+    margin-right: 0 !important;
+    resize: none !important;
+    min-height: 40px;
+    max-height: 120px;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    transition: border-color 0.2s;
+}
+
+.tyn-chat-form-input:focus {
+    border-color: var(--bs-primary) !important;
+    background: #ffffff !important;
+}
+
+.tyn-quick-chat-form-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-self: flex-end;
+}
+
+/* Login Screen */
+#verify_wrap {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+#verify_wrap h2.letsChat {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+#verify_wrap .wellcomeMessage {
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+    color: #64748b;
+}
+
+#user-info input, 
+#otp-verification input {
+    width: 100%;
+    margin-bottom: 0.75rem;
+    padding: 0.625rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+}
+
+#send-otp, 
+#verify-otp {
+    width: 100%;
+    padding: 0.625rem;
+    background: var(--bs-primary);
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#send-otp:hover, 
+#verify-otp:hover {
+    filter: brightness(0.9);
+}
